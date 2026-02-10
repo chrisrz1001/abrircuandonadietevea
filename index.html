@@ -46,15 +46,18 @@ body {
 /* Texto inicial */
 h2 {
     font-size: 22px;
-    margin-top: 30px;
-    line-height: 1.4;
-    margin-bottom: 60px; /* separa del árbol */
+    line-height: 1.45;
+    margin-top: 40px;
+    margin-bottom: 80px;
     white-space: pre-line;
+    max-width: 700px; /* evita que empuje tanto */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Árbol */
 .contenedor-arbol {
-    margin-top: 60px; /* opción 3: árbol un poco arriba */
+    margin-top: 40px; /* árbol un poco arriba, pero no pegado */
 }
 
 .arbol {
@@ -76,8 +79,8 @@ h2 {
 .copa {
     position: absolute;
     width: 330px;
-    height: 360px; /* más altura para forma A */
-    top: -330px;   /* sube la copa */
+    height: 320px; /* altura corregida */
+    top: -260px;   /* ya no invade el texto */
     left: 0;
 }
 
@@ -103,7 +106,7 @@ h2 {
 
 /* Contador */
 #textoContador {
-    margin-top: 80px;
+    margin-top: 100px;
     font-size: 20px;
 }
 
@@ -123,9 +126,10 @@ h2 {
 
 <div id="contenido" class="oculto">
 
-<h2>Sé que tal vez no podamos vernos, pero eso no quita el hecho
-que pueda darte un detalle.
-Feliz San Valentín bonita.
+<h2>Sé que tal vez no podamos vernos,
+pero eso no quita que pueda darte un detalle.
+
+Feliz San Valentín, bonita.
 Te quiero a mares <3</h2>
 
 <div class="contenedor-arbol">
@@ -165,13 +169,13 @@ function iniciarAnimaciones() {
     actualizarContador();
 }
 
-// CORAZÓN CLÁSICO — Versión A
+// CORAZÓN CLÁSICO VERSIÓN A — MÁS REDONDITO Y PROPORCIONADO
 function generarCopa() {
     const copa = document.getElementById("copa");
     copa.innerHTML = "";
 
     const width = 330;
-    const height = 360;
+    const height = 320;
 
     for (let i = 0; i < 380; i++) {
         const heart = document.createElement("div");
@@ -180,13 +184,11 @@ function generarCopa() {
 
         let x, y, inside = false;
 
-        // versión A — forma más redondita
         while (!inside) {
             x = (Math.random() * 2 - 1);
             y = (Math.random() * 2 - 1);
 
-            // ajustamos ligeramente y para hacerlo más clásico
-            const yy = y * 1.15; 
+            const yy = y * 1.25;  /* más redondito arriba */
             const eq = Math.pow(x*x + yy*yy - 1, 3) - x*x*yy*yy*yy;
 
             if (eq <= 0) inside = true;
