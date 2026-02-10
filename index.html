@@ -9,7 +9,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #ffcee2; /* FONDO DEL GIF */
+    background: #ffcee2; /* Fondo igual al GIF */
     font-family: "Georgia", serif;
     text-align: center;
     overflow-x: hidden;
@@ -23,13 +23,19 @@ body {
     position: absolute;
     width: 100%;
     height: 100vh;
-    background: #ffcee2; /* mismo fondo */
+    background: #ffcee2;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     transition: opacity .8s ease;
     z-index: 10;
+}
+
+.inicio-gif {
+    width: 240px;
+    max-width: 90%;
+    margin-bottom: 20px;
 }
 
 .btn-iniciar {
@@ -55,7 +61,7 @@ h2 {
     margin-right: auto;
 }
 
-/* Contenedor del GIF */
+/* GIF del contenido */
 .img-contenedor {
     margin-top: 20px;
     margin-bottom: 40px;
@@ -96,11 +102,18 @@ h2 {
 
 <body>
 
+<!-- PANTALLA DE INICIO -->
 <div id="inicio" class="iniciar-pantalla visible">
+
+    <!-- GIF NUEVO ARRIBA -->
+    <img src="giphy_pink.gif" class="inicio-gif" alt="Gif inicial">
+
     <h1>💖Pícale aquí💖</h1>
+
     <button class="btn-iniciar" onclick="iniciar()">Toca para ver tu sorpresa</button>
 </div>
 
+<!-- CONTENIDO PRINCIPAL -->
 <div id="contenido" class="oculto">
 
 <h2>Sé que tal vez no podamos vernos,
@@ -109,7 +122,7 @@ pero eso no quita que pueda darte un detalle.
 Feliz San Valentín, bonita.
 Te quiero a mares <3</h2>
 
-<!-- GIF DEL PERRITO CON TU NOMBRE DE ARCHIVO -->
+<!-- GIF DEL PERRITO -->
 <div class="img-contenedor">
     <img src="216102482115961471.gif" alt="Perrito tierno">
 </div>
