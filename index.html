@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>San Valentín</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #f5e6d3;
+    font-family: "Georgia", serif;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+/* Pantalla inicio */
+.oculto { opacity: 0; pointer-events: none; transition: opacity .8s ease; }
+.visible { opacity: 1; pointer-events: auto; }
+
+.iniciar-pantalla {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: #f5e6d3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity .8s ease;
+    z-index: 10;
+}
+
+.btn-iniciar {
+    background: #d14b63;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.btn-iniciar:hover { transform: scale(1.05); }
+
+/* Texto inicial */
+h2 {
+    font-size: 22px;
+    margin-top: 30px;
+    line-height: 1.4;
+    margin-bottom: 60px; /* separa del árbol */
+    white-space: pre-line;
+}
+
+/* Árbol */
+.contenedor-arbol {
+    margin-top: 40px; /* opción 3: árbol un poco arriba */
+}
+
+.arbol {
+    width: 330px;
+    margin: 0 auto;
+    position: relative;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.tronco {
+    width: 55px;
+    height: 150px;
+    background: #8b5a2b;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.copa {
+    position: absolute;
+    width: 330px;
+    height: 360px; /* más altura para forma A */
+    top: -330px;   /* sube la copa */
+    left: 0;
+}
+
+.corazon {
+    position: absolute;
+    color: #d10033;
+    font-size: 22px;
+}
+
+/* Corazones cayendo */
+.falling-heart {
+    position: fixed;
+    top: -20px;
+    font-size: 20px;
+    animation: caer 6s linear infinite;
+    opacity: 0.85;
+}
+
+@keyframes caer {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Contador */
+#textoContador {
+    margin-top: 80px;
+    font-size: 20px;
+}
+
+#contador {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div id="inicio" class="iniciar-pantalla visible">
+    <h1>💖 Tengo algo para ti 💖</h1>
+    <button class="btn-iniciar" onclick="iniciar()">Toca para ver tu sorpresa</button>
+</div>
+
+<div id="contenido" class="oculto">
+
+<h2>Sé que tal vez no podamos vernos, pero eso no quita el hecho
+que pueda darte un detalle.
+Feliz San Valentín bonita.
+Te quiero a mares <3</h2>
+
+<div class="contenedor-arbol">
+    <div class="arbol" id="arbol">
+        <div class="copa" id="copa"></div>
+        <div class="tronco"></div>
+    </div>
+</div>
+
+<div id="textoContador">Llevamos todo este tiempo compartiendo algo bonito:</div>
+<div id="contador">Cargando...</div>
+
+</div>
+
+<script>
+function iniciar() {
+    document.getElementById("inicio").classList.remove("visible");
+    document.getElementById("inicio").classList.add("oculto");
+
+    setTimeout(() => {
+        const cont = document.getElementById("contenido");
+        cont.classList.remove("oculto");
+        cont.classList.add("visible");
+
+        setTimeout(() => {
+            document.getElementById("arbol").style.opacity = 1;
+        }, 400);
+
+        iniciarAnimaciones();
+    }, 600);
+}
+
+function iniciarAnimaciones() {
+    generarCopa();
+    setInterval(generarCorazonCayendo, 500);
+    setInterval(actualizarContador, 1000);
+    actualizarContador();
+}
+
+// CORAZÓN CLÁSICO — Versión A
+function generarCopa() {
+    const copa = document.getElementById("copa");
+    copa.innerHTML = "";
+
+    const width = 330;
+    const height = 360;
+
+    for (let i = 0; i < 380; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("corazon");
+        heart.textContent = "❤️";
+
+        let x, y, inside = false;
+
+        // versión A — forma más redondita
+        while (!inside) {
+            x = (Math.random() * 2 - 1);
+            y = (Math.random() * 2 - 1);
+
+            // ajustamos ligeramente y para hacerlo más clásico
+            const yy = y * 1.15; 
+            const eq = Math.pow(x*x + yy*yy - 1, 3) - x*x*yy*yy*yy;
+
+            if (eq <= 0) inside = true;
+        }
+
+        const px = ((x + 1) / 2) * width;
+        const py = ((1 - (y + 1) / 2)) * height;
+
+        heart.style.left = px + "px";
+        heart.style.top = py + "px";
+        heart.style.fontSize = (18 + Math.random() * 10) + "px";
+
+        copa.appendChild(heart);
+    }
+}
+
+function generarCorazonCayendo() {
+    const heart = document.createElement("div");
+    heart.classList.add("falling-heart");
+    heart.textContent = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+}
+
+const fechaInicio = new Date("2025-11-11T21:00:00");
+
+function actualizarContador() {
+    const ahora = new Date();
+    let diff = ahora - fechaInicio;
+    if (diff < 0) diff = 0;
+
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diff / (1000 * 60)) % 60);
+    const segundos = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("contador").textContent =
+        `${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos`;
+}
+</script>
+
+</body>
+</html>
