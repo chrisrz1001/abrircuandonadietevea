@@ -9,7 +9,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #ffcee2; /* Fondo igual al GIF */
+    background: #ffcee2;
     font-family: "Georgia", serif;
     text-align: center;
     overflow-x: hidden;
@@ -49,19 +49,27 @@ body {
 }
 .btn-iniciar:hover { transform: scale(1.05); }
 
-/* Texto inicial */
+/* Texto principal */
 h2 {
     font-size: 22px;
     line-height: 1.45;
     margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     white-space: pre-line;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* GIF del contenido */
+/* Texto cursiva */
+.texto-extra {
+    font-style: italic;
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #6b2d3c;
+}
+
+/* GIF contenido */
 .img-contenedor {
     margin-top: 20px;
     margin-bottom: 40px;
@@ -102,10 +110,14 @@ h2 {
 
 <body>
 
-<!-- PANTALLA DE INICIO -->
+<!-- AUDIO -->
+<audio id="musica" loop>
+    <source src="DBCMsong.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PANTALLA INICIO -->
 <div id="inicio" class="iniciar-pantalla visible">
 
-    <!-- GIF NUEVO ARRIBA -->
     <img src="giphy_pink.gif" class="inicio-gif" alt="Gif inicial">
 
     <h1>💖Pícale aquí💖</h1>
@@ -113,7 +125,7 @@ h2 {
     <button class="btn-iniciar" onclick="iniciar()">Toca para ver tu sorpresa</button>
 </div>
 
-<!-- CONTENIDO PRINCIPAL -->
+<!-- CONTENIDO -->
 <div id="contenido" class="oculto">
 
 <h2>Sé que tal vez no podamos vernos,
@@ -122,7 +134,10 @@ pero eso no quita que pueda darte un detalle.
 Feliz San Valentín, bonita.
 Te quiero a mares <3</h2>
 
-<!-- GIF DEL PERRITO -->
+<div class="texto-extra">
+Lo que no puedo decirte con palabras, intento demostrártelo con hechos
+</div>
+
 <div class="img-contenedor">
     <img src="216102482115961471.gif" alt="Perrito tierno">
 </div>
@@ -136,6 +151,11 @@ Te quiero a mares <3</h2>
 function iniciar() {
     document.getElementById("inicio").classList.remove("visible");
     document.getElementById("inicio").classList.add("oculto");
+
+    // Reproducir música
+    const audio = document.getElementById("musica");
+    audio.volume = 0.4; // volumen suave
+    audio.play();
 
     setTimeout(() => {
         const cont = document.getElementById("contenido");
